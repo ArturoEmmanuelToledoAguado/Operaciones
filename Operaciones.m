@@ -43,7 +43,18 @@ while opc~=5
                 title(['Resta de ',num2str(valor),' en el plano ',num2str(plano)])
             end
         case 3
-            disp('Multiplicacion')
+            while plano~=4
+                plano=input('Ingrese un plano\n1. Rojo (R)\n2. Verde (G)\n3. Azul (B)\n4. Salir\n');
+                if plano==4
+                    plano=0;
+                    break;
+                end
+                valor=input('Ingrese un valor a Multiplicar ');
+                img=MulImg(valor,img,plano);
+                figure()
+                imshow(img)
+                title(['Multiplicacion de ',num2str(valor),' en el plano ',num2str(plano)])
+            end
         case 4
             disp('Division')
     end
@@ -64,17 +75,34 @@ function sum = AddImg(val,img,plano)
     end
 end
 
-%Funcion para Rstar un valor a la imagen en un plano en especial (RGB)
-function sum = ResImg(val,img,plano)
-    sum(:,:,plano)=img(:,:,plano)-val;
+%Funcion para Restar un valor a la imagen en un plano en especial (RGB)
+function res = ResImg(val,img,plano)
+    res(:,:,plano)=img(:,:,plano)-val;
     if plano==1
-        sum(:,:,2)=img(:,:,2);%Ponemos el plano G
-        sum(:,:,3)=img(:,:,3);%Ponemos el plano B
+        res(:,:,2)=img(:,:,2);%Ponemos el plano G
+        res(:,:,3)=img(:,:,3);%Ponemos el plano B
     elseif plano==2
-        sum(:,:,1)=img(:,:,1);%Ponemos el plano R
-        sum(:,:,3)=img(:,:,3);%Ponemos el plano B
+        res(:,:,1)=img(:,:,1);%Ponemos el plano R
+        res(:,:,3)=img(:,:,3);%Ponemos el plano B
     elseif plano==3
-        sum(:,:,1)=img(:,:,1);%Ponemos el plano R
-        sum(:,:,2)=img(:,:,2);%Ponemos el plano G
+        res(:,:,1)=img(:,:,1);%Ponemos el plano R
+        res(:,:,2)=img(:,:,2);%Ponemos el plano G
+    end
+end
+
+%Funcion para Multiplicar un valor a la imagen en un plano en especial (RGB)
+function mulI = MulImg(val,img,plano)
+    imgD=double(img);
+    mul(:,:,plano)=imgD(:,:,plano)*val;
+    mulI(:,:,plano)=uint8(mul(:,:,plano));
+    if plano==1
+        mulI(:,:,2)=uint8(imgD(:,:,2));%Ponemos el plano G
+        mulI(:,:,3)=uint8(imgD(:,:,3));%Ponemos el plano B
+    elseif plano==2
+        mulI(:,:,1)=uint8(imgD(:,:,1));%Ponemos el plano R
+        mulI(:,:,3)=uint8(imgD(:,:,3));%Ponemos el plano B
+    elseif plano==3
+        mulI(:,:,1)=uint8(imgD(:,:,1));%Ponemos el plano R
+        mulI(:,:,2)=uint8(imgD(:,:,2));%Ponemos el plano G
     end
 end
