@@ -56,7 +56,18 @@ while opc~=5
                 title(['Multiplicacion de ',num2str(valor),' en el plano ',num2str(plano)])
             end
         case 4
-            disp('Division')
+            while plano~=4
+                plano=input('Ingrese un plano\n1. Rojo (Red)\n2. Verde (Green)\n3. Azul (Blue)\n4. Salir\n');
+                if plano==4
+                    plano=0;
+                    break;
+                end
+                valor=input('Ingrese un valor a Dividir ');
+                img=DivImg(1/valor,img,plano);
+                figure()
+                imshow(img)
+                title(['Division de ',num2str(valor),' en el plano ',num2str(plano)])
+            end
     end
 end
 
@@ -92,6 +103,23 @@ end
 
 %Funcion para Multiplicar un valor a la imagen en un plano en especial (RGB)
 function mulI = MulImg(val,img,plano)
+    imgD=double(img);
+    mul(:,:,plano)=imgD(:,:,plano)*val;
+    mulI(:,:,plano)=uint8(mul(:,:,plano));
+    if plano==1
+        mulI(:,:,2)=uint8(imgD(:,:,2));%Ponemos el plano G
+        mulI(:,:,3)=uint8(imgD(:,:,3));%Ponemos el plano B
+    elseif plano==2
+        mulI(:,:,1)=uint8(imgD(:,:,1));%Ponemos el plano R
+        mulI(:,:,3)=uint8(imgD(:,:,3));%Ponemos el plano B
+    elseif plano==3
+        mulI(:,:,1)=uint8(imgD(:,:,1));%Ponemos el plano R
+        mulI(:,:,2)=uint8(imgD(:,:,2));%Ponemos el plano G
+    end
+end
+
+%Funcion para Dividir un valor a la imagen en un plano en especial (RGB)
+function mulI = DivImg(val,img,plano)
     imgD=double(img);
     mul(:,:,plano)=imgD(:,:,plano)*val;
     mulI(:,:,plano)=uint8(mul(:,:,plano));
